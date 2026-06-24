@@ -1,79 +1,104 @@
-# File Organizer: Engineering & Computer Science Reference
+# Systems Engineering: OS File Organizer
 
+[![Language: Python](https://img.shields.io/badge/Language-Python%203.11-3776AB?logo=python&style=flat-square)]()
+[![OS](https://img.shields.io/badge/OS-Cross_Platform-0052CC?style=flat-square)]()
 [![Maintenance: Archived/Educational](https://img.shields.io/badge/Maintenance-Educational-blue.svg?style=flat-square)]()
-[![Code Quality: Staff-Level](https://img.shields.io/badge/Code_Quality-Standardized-3ECF8E?style=flat-square)]()
 
 ## Overview
-This repository serves as a localized reference library for fundamental computer science algorithms, data structures, and automation utilities. It has been strictly audited and standardized to maintain high-quality engineering conventions.
+This repository functions as an applied Systems Engineering utility script, designed to mathematically parse, categorize, and relocate filesystem binaries based on their core extensions (e.g., `.png`, `.pdf`, `.mp4`). It serves as a practical demonstration of utilizing Python's low-level OS libraries to interface directly with the host machine's filesystem.
 
 ## Problem Statement
-Software engineers often lose track of fundamental algorithm implementations or foundational language syntaxes as they transition into specialized senior roles. This repository solves that by acting as a hardened, standardized, and easily searchable reference index for core computer science concepts and utility automation.
+End-user `Downloads` and `Documents` directories frequently degrade into unstructured data swamps, costing individuals time and impacting filesystem indexing speeds. Relying on manual GUI dragging-and-dropping is unscalable. This repository solves that by deploying a localized Python automation script that programmatically intercepts the filesystem, generating structured routing directories and securely translocating files using native OS syscalls.
 
 ## Key Features
-- **Algorithmic Correctness:** Core implementations of critical data structures and algorithms.
-- **Strict Standardization:** Enforces uniform directory structures and markdown formatting across all scripts.
-- **Reference Architecture:** Serves as a historical and educational baseline for future architectural designs.
+- **OS-Level Execution:** Direct integration with Python's native `os` and `shutil` modules to manipulate host memory without requiring administrative `sudo` escalation.
+- **Dynamic File Classification:** Automatically parses file extensions and dynamically generates missing domain directories (e.g., creating a `Images/` folder if `.jpg` files are detected).
+- **Idempotent Operations:** Designed to safely skip pre-existing directories, preventing destructive overwrites or filesystem panics during multiple executions.
+- **Cross-Platform Compatibility:** Relies on standard Python OS wrappers, allowing seamless execution across MacOS, Linux, and Windows environments.
 
 ## Architecture
 
 ```mermaid
 graph TD
-    Root[Repository Root] --> Logic[Core Implementation Files]
-    Root --> Tests[Automated Testing Suites]
-    Logic --> Execution[Runtime Environment]
-    Tests --> CI[Continuous Integration Baseline]
+    User[Terminal Execution] --> Parser[Python OS Library]
+    Parser --> Scan[os.listdir Directory Scan]
+    
+    Scan --> Check[Extension Extraction]
+    
+    Check -->|Images| Img[Translocate to Images/]
+    Check -->|Documents| Doc[Translocate to Docs/]
+    Check -->|Executables| Bin[Translocate to Apps/]
+    
+    Img --> Shutil[shutil.move Syscall]
+    Doc --> Shutil
+    Bin --> Shutil
 ```
 
 ## Technology Stack
-- **Language:** Primary syntax (Python, Java, C, or JavaScript) dependent on module.
-- **Testing:** Native unit testing frameworks.
-- **Documentation:** GitHub Flavored Markdown (GFM).
+- **Language:** Python 3.11
+- **Standard Libraries:** `os`, `shutil`
+- **Testing:** `pytest` (Abstract Syntax Tree Validation)
+- **Documentation:** GitHub Flavored Markdown (GFM)
 
 ## Project Structure
 ```text
 file-organizer/
-├── src/ / main/             # Core logic and algorithm definitions
-├── tests/                   # Baseline integrity tests
+├── projects/
+│   └── file_organizer/      # Core execution logic
+├── tests/                   # Automated Pytest CI verification
 └── README.md                # System documentation
 ```
 
 ## Installation
-Clone the repository to review the architectural patterns:
+Ensure Python 3 is installed natively on your OS. No external `pip` dependencies are required.
 ```bash
 git clone https://github.com/krsna016/file-organizer.git
-cd file-organizer
+cd file-organizer/projects/file_organizer
 ```
 
 ## Usage
-Navigate to the specific module or script and execute using the native compiler or interpreter.
+Execute the script natively via the terminal within the directory you wish to organize.
+```bash
+python3 main.py
+```
 
 ## Examples
-*Executing a standard reference script:*
-```bash
-# Example for Python environments
-python3 main.py
+*Example of utilizing `shutil.move` for secure file translocation:*
+```python
+import os
+import shutil
+
+# Securely translocate binary from Source to Destination
+source_path = os.path.join(current_dir, filename)
+destination_path = os.path.join(current_dir, category, filename)
+
+shutil.move(source_path, destination_path)
 ```
 
 ## Screenshots
 > [!NOTE]
-> *Educational and utility repositories execute via standard terminal output.*
+> *Utility and OS-level repositories execute via standard terminal output without GUI interactions.*
 
 ## Visual Demonstrations
 > [!NOTE]
 > *Terminal execution telemetry is standardized across all implementations.*
 
 ## Testing
-Baseline structural integrity tests are enforced to ensure that the repository logic can compile and execute without environment configuration errors.
+We utilize a dynamic Pytest wrapper to recursively scan the entire repository, generating Abstract Syntax Trees (AST) for every `.py` file. Because this script executes powerful OS-level `move` commands, proving zero syntax errors exist prior to execution is absolutely critical to prevent destructive host operations.
+```bash
+pytest tests/
+```
 
 ## Performance Notes
-- **Algorithmic Time Complexity:** Scripts and data structures within this repository are optimized for O(n) or O(log n) performance baselines where applicable.
+- **Time Complexity:** The script operates in $O(N)$ linear time, iterating through the directory exactly once.
+- **I/O Bottlenecks:** Performance is explicitly bound by the host machine's disk read/write speeds (SSD vs HDD), not the Python interpreter.
 
 ## Future Improvements
-- **Containerization:** Wrap reference scripts in isolated Docker containers for immediate cross-platform execution.
-- **CI/CD:** Implement GitHub Actions to run the structural test suites continuously.
+- **Argument Parsing:** Upgrade the script to utilize Python's `argparse` library, allowing developers to pass the target directory path as a CLI argument rather than relying on the Current Working Directory (CWD).
+- **Dry-Run Mode:** Implement a `--dry-run` flag that prints out the intended translocation map without actually executing the `shutil.move` syscalls.
 
 ## Contributing
-This repository is primarily for personal reference and educational archival. Pull Requests fixing Big-O time complexity inefficiencies are welcome.
+This repository is primarily for personal reference and academic archival.
 
 ## License
 Licensed under the MIT License.
